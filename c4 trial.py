@@ -82,14 +82,56 @@ def winner(grid, row, cols):  # Define functions winner
     # diagonal winning possibilities
     currentrow = row - 1
     currentCol = cols - 1
-
-    while currentrow >= upLimit and currentCol == leftLimit:
-        count = count + 1
-        currentrow =  currentrow -1
-        currentCol = currentCol -1
+    #Left Diagonal
+    while currentrow >= upLimit and currentCol >= leftLimit:
+        currentToken = grid[currentrow][currentCol]
+        if startToken == currentToken:
+            count = count + 1
+            currentrow = currentrow - 1
+            currentCol = currentCol - 1
+        else :
+            break
     if count == 3:
         return str(startToken)
+
+    currentrow = row + 1
+    currentCol = cols + 1
+
+   # upLimit = min(row + 3, numrows)
+    #downLimit = max(row - 3, numrows - 1)
+    rowLimit = min(row + 3, numrows - 1)
+    colLimit = min(cols +3, numcol - 1)
+    while currentrow <= rowLimit and currentCol <= colLimit:
+        currentToken = grid[currentrow][currentCol]
+        if startToken == currentToken:
+            count = count + 1
+            currentrow = currentrow + 1
+            currentCol = currentCol + 1
+        else :
+            break
+    if count == 3:
+        return str(startToken)
+    else:
+        count = 0
+
+    # Right diagonal
+    '''
+    currentrow = row + 1
+    currentCol = cols + 1
+    while currentrow <= downLimit and currentCol <= rightLimit:
+        currentToken = grid[currentrow][currentCol]
+        if startToken == currentToken:
+            count = count + 1
+        else :
+            break
+    if count == 3:
+        return str(startToken)'''
+
+
     return 'continue'
+
+
+
 
 
 nameX = input('Player X, enter your name:')
@@ -102,35 +144,25 @@ printGrid(grid)
 for user in range(0, 41):
     if user % 2 == 0:
         token = 'X'
-        print('             ')
-        tarCol = input(nameX + ''', you're X. What column do you want to play in?''')
-        while tarCol not in '0123456':
-            tarCol = input('Sorry, ' + str(nameX) + '. That is an invalid colum. Please input a column between 0-6.')
-        tarCol = int(tarCol)
-        print('             ')
-        row = dropToken(grid, token, tarCol)
-        print('0 1 2 3 4 5 6')
-        printGrid(grid)
-        status = winner(grid, row, tarCol)
-        if status in 'XO':
-            print('Congratulations, ' + str(nameX) + ', you won!')
-            break
-
+        name = nameX
     else:
         token = 'O'
-        print('             ')
-        tarCol = input(nameO + ''', you're O. What column do you want to play in?''')
-        while tarCol not in '0123456':
-            tarCol = input('Sorry, ' + str(nameO) + '. That is an invalid column. Please input a column between 0-6.')
-        tarCol = int(tarCol)
-        print('             ')
-        dropToken(grid, token, tarCol)
-        print('0 1 2 3 4 5 6')
-        printGrid(grid)
-        status = winner(grid, row - 1, tarCol-1)
-        if status in 'XO':
-            print('Congratulations, ' + str(nameO) + ', you won!')
-            break
+        name = nameO
+
+    print('             ')
+    tarCol = input(name + ''', you're X. What column do you want to play in?''')
+    while tarCol not in '0123456':
+        tarCol = input('Sorry, ' + str(name) + '. That is an invalid colum. Please input a column between 0-6.')
+    tarCol = int(tarCol)
+    print('             ')
+    row = dropToken(grid, token, tarCol)
+    print('0 1 2 3 4 5 6')
+    printGrid(grid)
+    status = winner(grid, row, tarCol)
+    if status in 'XO':
+        print('Congratulations, ' + str(name) + ', you won!')
+        break
     if token == 42:
+        print('Congratulations, ' + str(name) + ', you won!')
         break
 #COMPLETED!
