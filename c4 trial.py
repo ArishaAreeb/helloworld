@@ -1,6 +1,6 @@
-#LAST UPDATED ON TUESDAY APRIL 27
+#LAST UPDATED APRIL 29
 #HORAZONTAL VERTICAL FUNCTIONING
-#DUE ON WEDNESDAY APRIL 28
+
 def printGrid(grid):
     rows = len(grid)
 
@@ -97,8 +97,7 @@ def winner(grid, row, cols):  # Define functions winner
     currentrow = row + 1
     currentCol = cols + 1
 
-   # upLimit = min(row + 3, numrows)
-    #downLimit = max(row - 3, numrows - 1)
+
     rowLimit = min(row + 3, numrows - 1)
     colLimit = min(cols +3, numcol - 1)
     while currentrow <= rowLimit and currentCol <= colLimit:
@@ -116,22 +115,37 @@ def winner(grid, row, cols):  # Define functions winner
 
     # Right diagonal
     '''
-    currentrow = row + 1
-    currentCol = cols + 1
-    while currentrow <= downLimit and currentCol <= rightLimit:
+    while currentrow >= upLimit and currentCol >= leftLimit:
         currentToken = grid[currentrow][currentCol]
         if startToken == currentToken:
             count = count + 1
-        else :
+            currentrow = currentrow - 1
+            currentCol = currentCol - 1
+        else:
             break
     if count == 3:
         return str(startToken)'''
+#Bottom
+    currentrow = row + 1
+    currentCol = cols - 1
 
+    rowLimit = min(row + 3, numrows - 1)
+    colLimit = min(cols - 3, 0)
+
+    while currentrow <= rowLimit and currentCol >= colLimit:
+        currentToken = grid[currentrow][currentCol]
+        if startToken == currentToken:
+            count = count + 1
+            currentrow = currentrow + 1
+            currentCol = currentCol - 1
+        else:
+            break
+    if count == 3:
+        return str(startToken)
+    else:
+        count = 0
 
     return 'continue'
-
-
-
 
 
 nameX = input('Player X, enter your name:')
@@ -150,7 +164,7 @@ for user in range(0, 41):
         name = nameO
 
     print('             ')
-    tarCol = input(name + ''', you're X. What column do you want to play in?''')
+    tarCol = input(name + ''', you're ''' + token + '''. What column do you want to play in?''')
     while tarCol not in '0123456':
         tarCol = input('Sorry, ' + str(name) + '. That is an invalid colum. Please input a column between 0-6.')
     tarCol = int(tarCol)
